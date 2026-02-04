@@ -18,6 +18,11 @@
   /* --beamer-secondary: #141414; */
 }
 
+/* VSCodeでマウスカーソルをレーザーポインター化 */
+section:not([data-marp-vscode-content-start-line]) {
+  cursor: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2NCIgaGVpZ2h0PSI2NCIgdmlld0JveD0iMCAwIDY0IDY0Ij4KICA8ZGVmcz4KICAgIDxyYWRpYWxHcmFkaWVudCBpZD0iZyIgY3g9IjUwJSIgY3k9IjUwJSIgcj0iNTAlIj4KICAgICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2ZmNDA0MCIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICAgIDxzdG9wIG9mZnNldD0iMzUlIiBzdG9wLWNvbG9yPSIjZmY0MDQwIiBzdG9wLW9wYWNpdHk9IjAuODUiLz4KICAgICAgPHN0b3Agb2Zmc2V0PSI3MCUiIHN0b3AtY29sb3I9IiNmZjQwNDAiIHN0b3Atb3BhY2l0eT0iMC4yNSIvPgogICAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNmZjQwNDAiIHN0b3Atb3BhY2l0eT0iMCIvPgogICAgPC9yYWRpYWxHcmFkaWVudD4KICAgIDxmaWx0ZXIgaWQ9ImJsdXIiIHg9Ii01MCUiIHk9Ii01MCUiIHdpZHRoPSIyMDAlIiBoZWlnaHQ9IjIwMCUiPgogICAgICA8ZmVHYXVzc2lhbkJsdXIgc3RkRGV2aWF0aW9uPSIyLjIiLz4KICAgIDwvZmlsdGVyPgogIDwvZGVmcz4KCiAgPCEtLSBzb2Z0IGdsb3cgLS0+CiAgPGNpcmNsZSBjeD0iMzIiIGN5PSIzMiIgcj0iMjIiIGZpbGw9InVybCgjZykiIGZpbHRlcj0idXJsKCNibHVyKSIvPgoKICA8IS0tIG91dGVyIHJpbmcgLS0+CiAgPGNpcmNsZSBjeD0iMzIiIGN5PSIzMiIgcj0iMTAuNSIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZmY0MDQwIiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1vcGFjaXR5PSIwLjU1Ii8+CgogIDwhLS0gY29yZSAtLT4KICA8Y2lyY2xlIGN4PSIzMiIgY3k9IjMyIiByPSI0LjIiIGZpbGw9IiNmZjQwNDAiLz4KICA8Y2lyY2xlIGN4PSIzMiIgY3k9IjMyIiByPSIyLjIiIGZpbGw9IiNmZmZmZmYiIGZpbGwtb3BhY2l0eT0iMC45Ii8+Cjwvc3ZnPgo=") 32 32, pointer;
+}
+
 section {
   background-color: #ffffff;
   /* bottom two-coloured bar in base64 svg */
@@ -70,6 +75,7 @@ em {
 
 strong {
   color: red;
+  font-weight: bold;
 }
 
 /* only apply to the first occurrence of h2 */
@@ -277,6 +283,15 @@ div.arraybox > div {
   text-align: center;
 }
 
+/* stack: 同じ大きさの図を重ね合わせる (アニメーションを想定) */
+.stack{
+  display: grid;
+}
+/* 全部同じセルに配置 */
+.stack > *{
+  grid-area: 1 / 1;
+}
+
 li.arrow {
   list-style-type: "➡";
 }
@@ -299,9 +314,38 @@ span.noemj::after {
 
 span.tip {
   border: solid black;
-  padding: 0.15em;
+  padding: 0 0.2em;
   border-radius: 0.5em;
 }
+
+/* fade-in animation */
+.fadein[data-bespoke-marp-fragment], .fadein-sync[fadein-id] {
+  --fadein-sec: 1s;
+  transition: opacity var(--fadein-sec) ease, transform var(--fadein-sec) ease;
+  will-change: opacity, transform;
+}
+/* inactive */
+.fadein[data-bespoke-marp-fragment="inactive"],
+section:has([data-bespoke-marp-fragment]) .fadein-sync[fadein-id] {
+  opacity: 0;
+  transform: translateY(6px);
+}
+/* active */
+/* fadein-idはページ内独立で大丈夫 */
+/* .fadein-sync[fadein-id]は離れた2箇所のfade-inを同期することを想定 */
+.fadein[data-bespoke-marp-fragment="active"],
+section:has([fadein-id="1"][data-bespoke-marp-fragment="active"]) .fadein-sync[fadein-id="1"],
+section:has([fadein-id="2"][data-bespoke-marp-fragment="active"]) .fadein-sync[fadein-id="2"],
+section:has([fadein-id="3"][data-bespoke-marp-fragment="active"]) .fadein-sync[fadein-id="3"],
+section:has([fadein-id="4"][data-bespoke-marp-fragment="active"]) .fadein-sync[fadein-id="4"],
+section:has([fadein-id="5"][data-bespoke-marp-fragment="active"]) .fadein-sync[fadein-id="5"],
+section:has([fadein-id="6"][data-bespoke-marp-fragment="active"]) .fadein-sync[fadein-id="6"],
+section:has([fadein-id="7"][data-bespoke-marp-fragment="active"]) .fadein-sync[fadein-id="7"],
+section:has([fadein-id="8"][data-bespoke-marp-fragment="active"]) .fadein-sync[fadein-id="8"] {
+  opacity: 1;
+  transform: translateY(0);
+}
+
 
 /* end classes implementation */
 
