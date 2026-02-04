@@ -221,6 +221,30 @@ div.colimg > :last-child {
   margin-left: auto;
 }
 
+table.columns {
+  border-collapse: collapse;
+  table-layout: fixed;
+  text-align: center;
+}
+table.columns th,
+table.columns td,
+table.columns tr {
+  border: none;
+  background-color: transparent !important;
+  /* padding: 3px; */
+}
+table.columns tbody > tr:nth-of-type(2) > td {
+  vertical-align: top;
+}
+table.columns td {
+  border-right: 2px solid #333;
+}
+/* 最後のセルの右線は消す */
+table.columns td:last-child,
+th:last-child {
+  border-right: none;
+}
+
 .colorbox {
   margin: 0 auto;
   font-weight: bold;
